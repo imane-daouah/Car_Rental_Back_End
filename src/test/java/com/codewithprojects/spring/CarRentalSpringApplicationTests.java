@@ -1,4 +1,4 @@
-package com.codewithprojects.Car_Rental_Spring;
+package com.codewithprojects.spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

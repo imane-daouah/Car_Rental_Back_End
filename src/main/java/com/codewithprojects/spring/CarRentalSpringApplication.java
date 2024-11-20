@@ -1,4 +1,4 @@
-package com.codewithprojects.Car_Rental_Spring;
+package com.codewithprojects.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
