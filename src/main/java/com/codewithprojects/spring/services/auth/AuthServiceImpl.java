@@ -23,6 +23,15 @@ public class AuthServiceImpl implements AuthService{
         user.setNom(signupRequest.getNom());
         user.setEmail(signupRequest.getEmail());
         user.setPassword(signupRequest.getPassword());
+        user.setPrenom(signupRequest.getPrenom());
+        user.setAdresse(signupRequest.getAdresse());
+        user.setUserRole(UserRole.CUSTOMER);
+        user.setNumero_tel(signupRequest.getNumero_tel());
+
+
+
+
+
         user.setUserRole(UserRole.CUSTOMER);
         User creerUser = userReepository.save(user);
         UserDto userDto=new UserDto();

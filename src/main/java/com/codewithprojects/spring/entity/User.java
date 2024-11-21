@@ -15,23 +15,13 @@ public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
-
     private String nom;
-
-
     private String prenom;
-
-
     private String email;
+    private String numero_tel;
 
-
-    private int numero_tel;
-
-
+    private String adresse ;
     private UserRole userRole;
-
-
     private String password;
 
 
@@ -75,12 +65,12 @@ public class User {
     }
 
 
-    public int getNumero_tel() {
+    public String  getNumero_tel() {
         return numero_tel;
     }
 
 
-    public void setNumero_tel(int numero_tel) {
+    public void setNumero_tel(String numero_tel) {
         this.numero_tel = numero_tel;
     }
 
