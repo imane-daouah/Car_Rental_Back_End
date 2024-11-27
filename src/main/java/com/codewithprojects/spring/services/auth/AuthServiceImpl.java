@@ -5,6 +5,8 @@ import com.codewithprojects.spring.dto.UserDto;
 import com.codewithprojects.spring.entity.User;
 import com.codewithprojects.spring.enums.UserRole;
 import com.codewithprojects.spring.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // Injection via Lombok (@RequiredArgsConstructor)
 
     @Override
     public UserDto createCustomer(SignupRequest signupRequest) {
@@ -20,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setNom(signupRequest.getNom());
         user.setEmail(signupRequest.getEmail());
-        user.setPassword(signupRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword())); // Utilisation correcte
         user.setPrenom(signupRequest.getPrenom());
         user.setAdresse(signupRequest.getAdresse());
         user.setNumero_tel(signupRequest.getNumero_tel());
