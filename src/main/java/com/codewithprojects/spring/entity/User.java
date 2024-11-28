@@ -65,7 +65,7 @@ public class User {
     }
 
 
-    public String  getNumero_tel() {
+    public String getNumero_tel() {
         return numero_tel;
     }
 
