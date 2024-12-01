@@ -32,7 +32,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation();
         reservation.setDate_debut(reservationRequest.getDate_debut());
         reservation.setDate_fin(reservationRequest.getDate_fin());
-        reservation.setStatus(reservationRequest.getStatus());
+        reservation.setStatus("En attente");
         reservation.setCar(car);
         reservation.setUser(user);
 
