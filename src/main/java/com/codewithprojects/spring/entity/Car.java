@@ -17,6 +17,8 @@ public class Car {
     private String type ;
     private Double tarif ;
     private  String etat;
+    private String image ;
+    private String description;
 
     public Long getId() {
         return id;
@@ -72,5 +74,21 @@ public class Car {
 
     public void setEtat(String etat) {
         this.etat = etat;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

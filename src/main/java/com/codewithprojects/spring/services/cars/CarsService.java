@@ -12,6 +12,7 @@ public interface CarsService {
     CarsDto modifierCars(Long id, CarsRequest carsRequest);
     void supprimerCars(Long id);
     List<CarsDto> getTousCars();
+    CarsDto getCarsById(Long id);
 
 
 }

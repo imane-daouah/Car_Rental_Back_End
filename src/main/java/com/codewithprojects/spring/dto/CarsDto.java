@@ -1,5 +1,6 @@
 package com.codewithprojects.spring.dto;
 
+import com.codewithprojects.spring.entity.Car;
 import lombok.Data;
 
 @Data
@@ -11,6 +12,8 @@ public class CarsDto {
     private String type ;
     private Double tarif ;
     private  String etat;
+    private String image ;
+    private String description;
 
     public Long getId() {
         return id;
@@ -67,4 +70,34 @@ public class CarsDto {
     public void setEtat(String etat) {
         this.etat = etat;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public static CarsDto fromEntity(Car car) {
+        CarsDto carsDto = new CarsDto();
+        carsDto.setId(car.getId());
+        carsDto.setMarque(car.getMarque());
+        carsDto.setModele(car.getModele());
+        carsDto.setAnnee(car.getAnnee());
+        carsDto.setType(car.getType());
+        carsDto.setTarif(car.getTarif());
+        carsDto.setEtat(car.getEtat());
+        carsDto.setImage(car.getImage());
+        carsDto.setDescription(car.getDescription());
+        return carsDto;
+    }
+
 }
