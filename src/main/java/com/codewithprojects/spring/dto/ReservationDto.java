@@ -1,27 +1,19 @@
-package com.codewithprojects.spring.entity;
-import jakarta.persistence.*;
+package com.codewithprojects.spring.dto;
+
+import com.codewithprojects.spring.entity.Car;
+import com.codewithprojects.spring.entity.User;
 import lombok.Data;
 
 import java.util.Date;
-@Entity
+
 @Data
-@Table(name ="reservations")
-
-public class Reservation {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id_reservation ;
+public class ReservationDto {
+    private long id_reservation;
     private Date date_debut;
-    private Date date_fin ;
-    private String status ;
-    @ManyToOne
-    @JoinColumn(name = "id_car", nullable = false)
-    private Car car;
-
-    @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
-    private User user;
-
+    private Date date_fin;
+    private String status;
+    private Car car;    // Objet de la voiture
+    private User user;  // Objet de l'utilisateur
 
 
     public void setDate_debut(Date date_debut) {
