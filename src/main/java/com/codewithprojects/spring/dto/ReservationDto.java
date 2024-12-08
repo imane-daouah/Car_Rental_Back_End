@@ -2,6 +2,7 @@ package com.codewithprojects.spring.dto;
 
 import com.codewithprojects.spring.entity.Car;
 import com.codewithprojects.spring.entity.User;
+
 import lombok.Data;
 
 import java.util.Date;

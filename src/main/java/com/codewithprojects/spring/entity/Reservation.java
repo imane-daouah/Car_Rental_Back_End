@@ -1,4 +1,5 @@
 package com.codewithprojects.spring.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 

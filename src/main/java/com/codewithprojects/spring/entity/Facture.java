@@ -3,7 +3,10 @@ package com.codewithprojects.spring.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+
 import java.time.LocalDate;
+
 
 @Entity
 @Data
@@ -13,7 +16,6 @@ public class Facture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_facture;
-
     @ManyToOne
     @JoinColumn(name = "id_reservation", nullable = false)
     private Reservation reservation;
