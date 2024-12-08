@@ -1,5 +1,6 @@
 package com.codewithprojects.spring.controller;
 
+import com.codewithprojects.spring.dto.ReservationRequest;
 
 import com.codewithprojects.spring.dto.ReservationDto;
 import com.codewithprojects.spring.dto.ReservationRequest;

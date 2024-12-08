@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRequest.getEmail());
         user.setNumero_tel(userRequest.getNumero_tel());
         user.setAdresse(userRequest.getAdresse());
-        user.setUserRole(userRequest.getRole());
         user.setPassword(userRequest.getPassword()); // Enregistrer le mot de passe
 
         User utilisateurCree = userRepository.save(user);
@@ -95,7 +94,6 @@ public class UserServiceImpl implements UserService {
         userDto.setEmail(user.getEmail());
         userDto.setNumero_tel(user.getNumero_tel());
         userDto.setAdresse(user.getAdresse());
-        userDto.setUserRole(user.getUserRole());
         userDto.setPassword(user.getPassword());
         return userDto;
     }

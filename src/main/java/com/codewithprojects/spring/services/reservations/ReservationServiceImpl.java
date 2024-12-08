@@ -8,6 +8,8 @@ import com.codewithprojects.spring.repository.CarsRepository;
 import com.codewithprojects.spring.repository.ReservationRepository;
 import com.codewithprojects.spring.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
-
-    private final ReservationRepository reservationRepository;
-    private final CarsRepository carsRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
+    @Autowired
+    private CarsRepository carsRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ReservationDto creerReservation(ReservationRequest reservationRequest) {
@@ -32,7 +36,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation();
         reservation.setDate_debut(reservationRequest.getDate_debut());
         reservation.setDate_fin(reservationRequest.getDate_fin());
-        reservation.setStatus("En attente");
+        reservation.setStatus("en attente");;
         reservation.setCar(car);
         reservation.setUser(user);
 
@@ -43,31 +47,24 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto modifierReservation(int id, ReservationRequest reservationRequest) {
-        // Trouver la réservation existante
-        Reservation reservationExistante = reservationRepository.findById(id)
+        Reservation reservationExistante = reservationRepository.findById((long) id)
                 .orElseThrow(() -> new RuntimeException("Réservation introuvable avec l'ID " + id));
 
-        // Modifier uniquement les champs nécessaires
+
+
         reservationExistante.setDate_debut(reservationRequest.getDate_debut());
         reservationExistante.setDate_fin(reservationRequest.getDate_fin());
-        reservationExistante.setStatus(reservationRequest.getStatus());
 
-        // Laisser les champs `car` et `user` inchangés
-        reservationExistante.setCar(reservationExistante.getCar());
-        reservationExistante.setUser(reservationExistante.getUser());
 
-        // Sauvegarder les modifications
+
         Reservation reservationModifiee = reservationRepository.save(reservationExistante);
 
-        // Retourner le DTO
         return convertirEnDto(reservationModifiee);
     }
 
-
-
     @Override
     public void supprimerReservation(int id) {
-        reservationRepository.deleteById(id);
+        reservationRepository.deleteById((long) id);
     }
 
     @Override
@@ -79,7 +76,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDto getReservationById(int id) {
-        Reservation reservation = reservationRepository.findById(id)
+        Reservation reservation = reservationRepository.findById((long) id)
                 .orElseThrow(() -> new RuntimeException("Réservation introuvable avec l'ID " + id));
         return convertirEnDto(reservation);
     }
@@ -94,4 +91,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDto.setUser(reservation.getUser());
         return reservationDto;
     }
+
+
 }
