@@ -1,25 +1,17 @@
 package com.codewithprojects.spring.dto;
 
-import com.codewithprojects.spring.enums.UserRole;
+import lombok.Data;
 import lombok.Data;
 @Data
 public class UserDto {
+
     private Long id;
     private String nom;
     private String prenom;
     private String email;
     private String numero_tel;
-    private UserRole userRole;
-    private String adresse ;
+    private String adresse;
     private String password;
-
-
-
-    public UserDto() {
-        super();
-    }
-
-
     public Long getId() {
         return id;
     }
@@ -50,26 +42,23 @@ public class UserDto {
     public void setNumero_tel(String numero_tel) {
         this.numero_tel = numero_tel;
     }
-    public UserRole getUserRole() {
-        return userRole;
-    }
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+
+    public UserDto() {
+        super();
     }
 
     public String getAdresse() {
         return adresse;
     }
-
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
-
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

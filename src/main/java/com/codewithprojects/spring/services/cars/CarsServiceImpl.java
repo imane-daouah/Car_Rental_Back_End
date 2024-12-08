@@ -1,51 +1,38 @@
 package com.codewithprojects.spring.services.cars;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.codewithprojects.spring.dto.CarsDto;
 import com.codewithprojects.spring.dto.CarsRequest;
 import com.codewithprojects.spring.entity.Car;
-
 import com.codewithprojects.spring.repository.CarsRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class CarsServiceImpl implements CarsService {
-
     @Autowired
     private CarsRepository carsRepository;
-
     @Override
     public CarsDto creerCars(CarsRequest carsRequest) {
-        // Vérifiez que l'objet carsRequest n'est pas null
-        if (carsRequest == null) {
-            throw new IllegalArgumentException("La requête carsRequest ne peut pas être null.");
-        }
-
-        // Créer une nouvelle instance de l'entité Car
-        Car car = new Car();
-        car.setAnnee(carsRequest.getAnnee());
-        car.setEtat(carsRequest.getEtat()); // Correction : récupérer `etat` depuis la requête
+        Car car=new Car();
         car.setMarque(carsRequest.getMarque());
-        car.setType(carsRequest.getType());
-        car.setTarif(carsRequest.getTarif());
         car.setModele(carsRequest.getModele());
+        car.setAnnee(carsRequest.getAnnee());
+        car.setEtat(carsRequest.getEtat());
+        car.setTarif(carsRequest.getTarif());
+        car.setType(carsRequest.getType());
         car.setImage(carsRequest.getImage());
         car.setDescription(carsRequest.getDescription());
-
-        // Enregistrer l'entité dans le repository
         Car creerCar = carsRepository.save(car);
-
-        // Créer et retourner le DTO
-        CarsDto carsDto = new CarsDto();
-        carsDto.setId(creerCar.getId());
-        return carsDto;
+        CarsDto carDto = new CarsDto();
+        carDto.setId(creerCar.getId());
+        return carDto;
     }
-
     @Override
     public CarsDto modifierCars(Long id, CarsRequest carsRequest) {
         Car car = carsRepository.findById(id).orElseThrow(() -> new RuntimeException("Voiture introuvable"));
@@ -57,9 +44,10 @@ public class CarsServiceImpl implements CarsService {
         car.setEtat(carsRequest.getEtat());
         car.setImage(carsRequest.getImage());
         car.setDescription(carsRequest.getDescription());
-
         Car updatedCar = carsRepository.save(car);
-        return CarsDto.fromEntity(car);
+
+
+        return CarsDto.fromEntity(updatedCar);
     }
 
     @Override
@@ -82,5 +70,3 @@ public class CarsServiceImpl implements CarsService {
     }
 
 }
-
-
