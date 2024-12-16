@@ -11,6 +11,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
+        System.out.println("Creating PasswordEncoder Bean...");
+        return new BCryptPasswordEncoder();
+    }
+
+
+    /*@Bean
+    public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
