@@ -6,10 +6,17 @@ import com.codewithprojects.spring.dto.SignupRequest;
 import com.codewithprojects.spring.dto.UserDto;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public interface AuthService {
-    boolean hasCustomerWithEmail(String email);
-    UserDto createCustomer(SignupRequest signupRequest);
-    UserDto loginCustomer(LoginRequest loginRequest);
-    AdminDto createAdmin(SignupRequest signupRequest);
+
+	 UserDto createCustomer(SignupRequest signupRequest);
+	 AdminDto createAdmin(SignupRequest signupRequest);
+	 
+	 boolean hasCustomerWithEmail(String email);
+	 
+	 UserDto loginCustomer(LoginRequest loginRequest);
+	 
+	 UserDto login(LoginRequest loginRequest);
 }
+

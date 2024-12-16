@@ -1,22 +1,24 @@
 package com.codewithprojects.spring.controller;
 
-import com.codewithprojects.spring.dto.ReservationRequest;
 
 import com.codewithprojects.spring.dto.ReservationDto;
 import com.codewithprojects.spring.dto.ReservationRequest;
 import com.codewithprojects.spring.services.reservations.ReservationService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
+import java.util.List;
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
-
-    private final ReservationService reservationService;
+	@Autowired
+    private ReservationService reservationService;
 
     // Créer une nouvelle réservation
     @PostMapping("/creer")
@@ -27,9 +29,7 @@ public class ReservationController {
 
     // Modifier une réservation existante
     @PutMapping("/modifier/{id}")
-    public ResponseEntity<ReservationDto> updateReservation(
-            @PathVariable int id,
-            @RequestBody ReservationRequest reservationRequest) {
+    public ResponseEntity<ReservationDto> updateReservation(@PathVariable int id, @RequestBody ReservationRequest reservationRequest) {
         ReservationDto updatedReservation = reservationService.modifierReservation(id, reservationRequest);
         return ResponseEntity.ok(updatedReservation);
     }
@@ -53,5 +53,9 @@ public class ReservationController {
     public ResponseEntity<ReservationDto> getReservationById(@PathVariable int id) {
         ReservationDto reservation = reservationService.getReservationById(id);
         return ResponseEntity.ok(reservation);
+    }
+    @GetMapping("/count")
+    public long getNombreReservations() {
+        return reservationService.getNombreResrvation();
     }
 }

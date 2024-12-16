@@ -1,29 +1,38 @@
 package com.codewithprojects.spring.controller;
 
+import java.util.List;
 import com.codewithprojects.spring.dto.CarsDto;
 import com.codewithprojects.spring.dto.CarsRequest;
 import com.codewithprojects.spring.services.cars.CarsService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
 public class CarsController {
-
-    private final CarsService carsService; // Lombok injectera automatiquement la dépendance.
-
-    @PostMapping("/creer")
-    public ResponseEntity<CarsDto> createCar(@RequestBody CarsRequest carsRequest) {
-        CarsDto createdCar = carsService.creerCars(carsRequest); // Utilise le service pour créer une voiture.
-        return ResponseEntity.ok(createdCar); // Renvoie une réponse HTTP 200 avec le DTO de la voiture créée.
+	@Autowired
+	private CarsService carsService;
+	
+	
+	@PostMapping("/creer")
+	 public ResponseEntity<CarsDto> createCar(@RequestBody CarsRequest carsRequest) {
+        CarsDto createdCar = carsService.creerCars(carsRequest);
+        return ResponseEntity.ok(createdCar);
     }
-
-
+	
+	// Modifier une voiture existante
     @PutMapping("/modifier/{id}")
     public ResponseEntity<CarsDto> updateCar(@PathVariable Long id, @RequestBody CarsRequest carsRequest) {
         CarsDto updatedCar = carsService.modifierCars(id, carsRequest);
@@ -42,5 +51,9 @@ public class CarsController {
     public ResponseEntity<List<CarsDto>> getAllCars() {
         List<CarsDto> carsList = carsService.getTousCars();
         return ResponseEntity.ok(carsList);
+    }
+    @GetMapping("detail/{id}")
+    public CarsDto getCarById(@PathVariable Long id) {
+        return carsService.getCarsById(id);
     }
 }

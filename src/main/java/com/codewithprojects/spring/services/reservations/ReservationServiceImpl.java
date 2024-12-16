@@ -1,16 +1,19 @@
 package com.codewithprojects.spring.services.reservations;
+
+
 import com.codewithprojects.spring.dto.ReservationDto;
 import com.codewithprojects.spring.dto.ReservationRequest;
 import com.codewithprojects.spring.entity.Car;
 import com.codewithprojects.spring.entity.Reservation;
 import com.codewithprojects.spring.entity.User;
-import com.codewithprojects.spring.repository.CarsRepository;
+import com.codewithprojects.spring.repository.CarsRespository;
 import com.codewithprojects.spring.repository.ReservationRepository;
-import com.codewithprojects.spring.repository.UserRepository;
+import com.codewithprojects.spring.repository.UserRespository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,12 +21,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
-    @Autowired
+	@Autowired
     private ReservationRepository reservationRepository;
-    @Autowired
-    private CarsRepository carsRepository;
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private CarsRespository carsRepository;
+	@Autowired
+	private UserRespository userRepository;
 
     @Override
     public ReservationDto creerReservation(ReservationRequest reservationRequest) {
@@ -36,7 +39,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation();
         reservation.setDate_debut(reservationRequest.getDate_debut());
         reservation.setDate_fin(reservationRequest.getDate_fin());
-        reservation.setStatus("en attente");;
+        reservation.setStatu("en attente");;
         reservation.setCar(car);
         reservation.setUser(user);
 
@@ -50,12 +53,12 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservationExistante = reservationRepository.findById((long) id)
                 .orElseThrow(() -> new RuntimeException("Réservation introuvable avec l'ID " + id));
 
-
+       
 
         reservationExistante.setDate_debut(reservationRequest.getDate_debut());
         reservationExistante.setDate_fin(reservationRequest.getDate_fin());
-
-
+       
+       
 
         Reservation reservationModifiee = reservationRepository.save(reservationExistante);
 
@@ -83,14 +86,20 @@ public class ReservationServiceImpl implements ReservationService {
 
     private ReservationDto convertirEnDto(Reservation reservation) {
         ReservationDto reservationDto = new ReservationDto();
-        reservationDto.setId_reservation(reservation.getId_reservation());
+        reservationDto.setId_reservation(reservation.getId_resrvation());
         reservationDto.setDate_debut(reservation.getDate_debut());
         reservationDto.setDate_fin(reservation.getDate_fin());
-        reservationDto.setStatus(reservation.getStatus());
+        reservationDto.setStatu(reservation.getStatu());
         reservationDto.setCar(reservation.getCar());
         reservationDto.setUser(reservation.getUser());
         return reservationDto;
     }
 
+	@Override
+	public long getNombreResrvation() {
+		
+		return reservationRepository.count();
+	}
 
+	
 }

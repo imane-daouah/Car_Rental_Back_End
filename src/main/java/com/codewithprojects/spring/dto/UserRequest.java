@@ -1,103 +1,106 @@
 package com.codewithprojects.spring.dto;
+
+
+
 import lombok.Data;
 @Data
 public class UserRequest {
-    private Long id;
+private Long id;
+	
+	
+	private String nom;
+	
+	
+	private String prenom;
+	
+	
+	private String email;
+	
+	private String adresse;
+	
+	private String numero_tel;
+
+	
+	
+	private String password;
 
 
-    private String nom;
+	public UserRequest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 
-    private String prenom;
+	public Long getId() {
+		return id;
+	}
 
 
-    private String email;
-
-    private String adresse;
-
-    private String numero_tel;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 
-
-    private String password;
-
-
-    public UserRequest() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	public String getNom() {
+		return nom;
+	}
 
 
-    public Long getId() {
-        return id;
-    }
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getPrenom() {
+		return prenom;
+	}
 
 
-    public String getNom() {
-        return nom;
-    }
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
 
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+	public String getEmail() {
+		return email;
+	}
 
 
-    public String getPrenom() {
-        return prenom;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
+	public String getAdresse() {
+		return adresse;
+	}
 
 
-    public String getEmail() {
-        return email;
-    }
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
 
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getNumero_tel() {
+		return numero_tel;
+	}
 
 
-    public String getAdresse() {
-        return adresse;
-    }
+	public void setNumero_tel(String numero_tel) {
+		this.numero_tel = numero_tel;
+	}
 
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
+	
+
+	public String getPassword() {
+		return password;
+	}
 
 
-    public String getNumero_tel() {
-        return numero_tel;
-    }
-
-
-    public void setNumero_tel(String numero_tel) {
-        this.numero_tel = numero_tel;
-    }
-
-
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
+	public void setPassword(String password) {
+		this.password = password;
+	}
+     
+	
 }

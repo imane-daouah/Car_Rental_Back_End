@@ -4,86 +4,86 @@ import lombok.Data;
 
 @Data
 public class CarsRequest {
-    private String marque;
+private String marque;
+	
+	private Integer modele;
+	
+	private Integer annee;
+	
+	private String type;
+	
+	private Double tarif;
+	
+	private String etat;
+	
+	private String image;
 
-    private Integer modele;
+	private String description;
 
-    private Integer annee;
+	public String getMarque() {
+		return marque;
+	}
 
-    private String type;
+	public void setMarque(String marque) {
+		this.marque = marque;
+	}
 
-    private Double tarif;
+	public Integer getModele() {
+		return modele;
+	}
 
-    private String etat;
+	public void setModele(Integer modele) {
+		this.modele = modele;
+	}
 
-    private String image;
+	public Integer getAnnee() {
+		return annee;
+	}
 
-    private String description;
+	public void setAnnee(Integer annee) {
+		this.annee = annee;
+	}
 
-    public String getMarque() {
-        return marque;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setMarque(String marque) {
-        this.marque = marque;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public Integer getModele() {
-        return modele;
-    }
+	public Double getTarif() {
+		return tarif;
+	}
 
-    public void setModele(Integer modele) {
-        this.modele = modele;
-    }
+	public void setTarif(Double tarif) {
+		this.tarif = tarif;
+	}
 
-    public Integer getAnnee() {
-        return annee;
-    }
+	public String getEtat() {
+		return etat;
+	}
 
-    public void setAnnee(Integer annee) {
-        this.annee = annee;
-    }
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getImage() {
+		return image;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+public String getDescription() {
+		
+		return description;
+	}
 
-    public Double getTarif() {
-        return tarif;
-    }
-
-    public void setTarif(Double tarif) {
-        this.tarif = tarif;
-    }
-
-    public String getEtat() {
-        return etat;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getDescription() {
-
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 
 }

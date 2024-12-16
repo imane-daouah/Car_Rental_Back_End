@@ -1,11 +1,11 @@
 package com.codewithprojects.spring.services.user;
 
+import java.util.List;
 
 import com.codewithprojects.spring.dto.UserDto;
 import com.codewithprojects.spring.dto.UserRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 @Service
 public interface UserService {
     UserDto creerUtilisateur(UserRequest userRequest);
@@ -14,4 +14,6 @@ public interface UserService {
     List<UserDto> getTousUtilisateurs();
     UserDto modifierMotDePasse(Long id, String nouveauMotDePasse);
     UserDto creerUtilisateurSiInexistant(UserRequest userRequest);
+    UserDto modifierMotDePasseAvecVerification(Long id, String ancienMotDePasse, String nouveauMotDePasse);
+    long getNombreUtilisateurs();
 }
