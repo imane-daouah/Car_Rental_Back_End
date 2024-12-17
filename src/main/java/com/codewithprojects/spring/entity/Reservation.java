@@ -2,13 +2,7 @@ package com.codewithprojects.spring.entity;
 
 import java.util.Date;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -18,6 +12,8 @@ public class Reservation {
     
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id_reservation") // Corrigez l'orthographe si nécessaire
+
 	private Long id_resrvation;
 	@ManyToOne
 	@JoinColumn(name = "id_car",nullable = false)
