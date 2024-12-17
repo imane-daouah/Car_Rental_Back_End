@@ -1,7 +1,4 @@
 package com.codewithprojects.spring.entity;
-
-
-
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;

@@ -1,10 +1,6 @@
 package com.codewithprojects.spring.entity;
 
-
-
 import jakarta.persistence.*;
-
-
 
 @Entity
 @DiscriminatorValue("Client")

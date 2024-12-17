@@ -1,12 +1,7 @@
 package com.codewithprojects.spring.dto;
-
-
-
 import com.codewithprojects.spring.entity.Reservation;
 import lombok.Data;
 import java.time.LocalDate;
-
-
 @Data
 public class FactureDto {
     private long id_facture;

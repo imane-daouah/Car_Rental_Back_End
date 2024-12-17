@@ -1,7 +1,4 @@
 package com.codewithprojects.spring.entity;
-
-
-
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;

@@ -5,9 +5,18 @@ import com.codewithprojects.spring.entity.Facture;
 import com.codewithprojects.spring.entity.Reservation;
 import com.codewithprojects.spring.repository.FactureRepository;
 import com.codewithprojects.spring.repository.ReservationRepository;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -15,9 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
-
 
 @Service
 public class FactureServiceImpl implements FactureService {
@@ -105,7 +111,8 @@ public class FactureServiceImpl implements FactureService {
 
     @Override
     public void deleteFacture(long id) {
-        factureRepository.deleteById(id);
+
+       factureRepository.deleteById(id);
     }
 
     /*private FactureDto convertToDTO(Facture facture) {
@@ -176,10 +183,17 @@ public class FactureServiceImpl implements FactureService {
         table.addHeaderCell(new Cell().add(new Paragraph("Montant (MAD)")));
         
         
-        long daysBetween = ChronoUnit.DAYS.between(paiement.getReservation().getDate_debut().toInstant(), paiement.getReservation().getDate_fin().toInstant());
+        //long daysBetween = ChronoUnit.DAYS.between(paiement.getReservation().getDate_debut().toInstant(), paiement.getReservation().getDate_fin().toInstant());
         // Ajout des lignes au tableau
-       
-            table.addCell(new Cell().add(new Paragraph(paiement.getReservation().getCar().getMarque() + " " +
+        Date dateDebut = paiement.getReservation().getDate_debut();
+        Date dateFin = paiement.getReservation().getDate_fin();
+
+        long daysBetween = java.time.Duration.between(
+                dateDebut.toInstant(), dateFin.toInstant()
+        ).toDays();
+
+
+        table.addCell(new Cell().add(new Paragraph(paiement.getReservation().getCar().getMarque() + " " +
                     paiement.getReservation().getCar().getModele())));
             table.addCell(new Cell().add(new Paragraph(String.valueOf(paiement.getReservation().getCar().getTarif()))));
             table.addCell(new Cell().add(new Paragraph(String.valueOf(daysBetween))));

@@ -5,8 +5,6 @@ import java.util.List;
 import com.codewithprojects.spring.dto.CarsDto;
 import com.codewithprojects.spring.dto.CarsRequest;
 import org.springframework.stereotype.Service;
-
-
 @Service
 public interface CarsService {
 	// Méthode pour créer une voiture

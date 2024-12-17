@@ -5,8 +5,6 @@ import com.codewithprojects.spring.dto.ReservationRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-
 @Service
 public interface ReservationService {
     ReservationDto creerReservation(ReservationRequest reservationRequest);

@@ -4,9 +4,6 @@ import com.codewithprojects.spring.entity.User;
 import lombok.Data;
 
 import java.util.Date;
-
-
-
 @Data
 public class ReservationDto {
     private Long id_reservation;
