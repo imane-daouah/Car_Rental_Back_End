@@ -3,18 +3,11 @@ package com.codewithprojects.spring.controller;
 import java.util.List;
 import com.codewithprojects.spring.dto.CarsDto;
 import com.codewithprojects.spring.dto.CarsRequest;
+import com.codewithprojects.spring.entity.Car;
 import com.codewithprojects.spring.services.cars.CarsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -24,9 +17,18 @@ import lombok.RequiredArgsConstructor;
 public class CarsController {
 	@Autowired
 	private CarsService carsService;
-	
-	
-	@PostMapping("/creer")
+
+
+
+    @GetMapping("/etat/{etat}")
+    public ResponseEntity<List<CarsDto>> getCarsByEtat(@PathVariable String etat) {
+        List<CarsDto> cars = carsService.getCarsByEtat(etat);
+        return ResponseEntity.ok(cars);
+    }
+
+
+
+    @PostMapping("/creer")
 	 public ResponseEntity<CarsDto> createCar(@RequestBody CarsRequest carsRequest) {
         CarsDto createdCar = carsService.creerCars(carsRequest);
         return ResponseEntity.ok(createdCar);

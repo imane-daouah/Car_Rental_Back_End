@@ -17,6 +17,16 @@ import lombok.RequiredArgsConstructor;
 public class CarsServiceImpl implements CarsService {
 	@Autowired
 	private CarsRespository carsRepository;
+	@Autowired
+	private CarsRespository carsRespository;
+
+	@Override
+	public List<CarsDto> getCarsByEtat(String etat) {
+		return carsRepository.findByEtat(etat).stream()
+				.map(CarsDto::fromEntity) // Convertir chaque entité en DTO
+				.collect(Collectors.toList());
+	}
+
 	@Override
 	public CarsDto creerCars(CarsRequest carsRequest) {
 		Car car=new Car();
