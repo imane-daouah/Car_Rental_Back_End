@@ -3,7 +3,7 @@ package com.codewithprojects.spring.dto;
 
 import lombok.Data;
 
-@Data // cree les getters and setters
+@Data
 public class AdminDto {
 	private Long id;
 	private String nom;
