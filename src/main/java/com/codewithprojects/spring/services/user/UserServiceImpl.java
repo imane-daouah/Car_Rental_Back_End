@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-	@Autowired
-    private UserRespository userRepository;
-	@Autowired
+    @Autowired
+    private  UserRespository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
     public UserDto creerUtilisateur(UserRequest userRequest) {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userRequest.getEmail());
         user.setNumero_tel(userRequest.getNumero_tel());
         user.setAdresse(userRequest.getAdresse());
-       
+
 
         User utilisateurModifie = userRepository.save(user);
 
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         // Utilisation du repository pour compter les utilisateurs
         return userRepository.count();
     }
-    
+
     @Override
     public UserDto modifierMotDePasseAvecVerification(Long id, String ancienMotDePasse, String nouveauMotDePasse) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));

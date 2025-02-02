@@ -20,8 +20,4 @@ private String marque;
 
 	private String description;
 
-
-
-
-
 }

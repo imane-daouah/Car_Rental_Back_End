@@ -1,7 +1,5 @@
 package com.codewithprojects.spring.controller;
 
-import java.util.List;
-
 import com.codewithprojects.spring.dto.UserDto;
 import com.codewithprojects.spring.dto.UserRequest;
 import com.codewithprojects.spring.services.user.UserService;
@@ -20,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-	@Autowired
+    @Autowired
     private UserService userService;
 
 

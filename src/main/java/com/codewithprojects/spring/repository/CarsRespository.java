@@ -1,7 +1,6 @@
 package com.codewithprojects.spring.repository;
 
 import com.codewithprojects.spring.entity.Car;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -21,13 +21,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 	@Autowired
-	private UserRespository userReepository;
+	private  UserRespository userReepository;
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private AdminRepository adminReepository;
-    @Autowired
-    private PersonneRepository personneRepository;
+	@Autowired
+	private PersonneRepository personneRepository;
 
 	@Override
 	public UserDto createCustomer(SignupRequest signupRequest) {
@@ -46,27 +46,27 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public boolean hasCustomerWithEmail(String email) {
-		
+
 		return userReepository.findFirstByEmail(email).isPresent();
 	}
 
 	@Override
 	public UserDto loginCustomer(LoginRequest loginRequest) {
 		User user = userReepository.findFirstByEmail(loginRequest.getEmail())
-	            .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+				.orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
-	        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-	            throw new IllegalArgumentException("Invalid email or password");
-	        }
+		if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+			throw new IllegalArgumentException("Invalid email or password");
+		}
 
-	        UserDto userDto = new UserDto();
-	        userDto.setId(user.getId());
-	        userDto.setEmail(user.getEmail());
-	        userDto.setNom(user.getNom());
-	        userDto.setPrenom(user.getPrenom());
-	        userDto.setNumero_tel(user.getNumero_tel());
-	        userDto.setAdresse(user.getAdresse());
-	        return userDto;
+		UserDto userDto = new UserDto();
+		userDto.setId(user.getId());
+		userDto.setEmail(user.getEmail());
+		userDto.setNom(user.getNom());
+		userDto.setPrenom(user.getPrenom());
+		userDto.setNumero_tel(user.getNumero_tel());
+		userDto.setAdresse(user.getAdresse());
+		return userDto;
 	}
 
 	@Override
@@ -86,31 +86,30 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public UserDto login(LoginRequest loginRequest) {
-	    Personne personne = personneRepository.findByEmail(loginRequest.getEmail())
-	    		 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+		Personne personne = personneRepository.findByEmail(loginRequest.getEmail())
+				.orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), personne.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
-        }
+		if (!passwordEncoder.matches(loginRequest.getPassword(), personne.getPassword())) {
+			throw new IllegalArgumentException("Invalid email or password");
+		}
 
-	    // Construire et retourner le DTO en fonction du type de Personne
-	    String role = (personne instanceof Admin) ? "Admin" : "Client";
-	    
-	    
-	    UserDto userDto = new UserDto();
-        userDto.setId(personne.getId());
-        userDto.setEmail(personne.getEmail());
-        userDto.setNom(personne.getNom());
-        userDto.setPrenom(personne.getPrenom());
-        userDto.setNumero_tel(personne.getNumero_tel());
-        userDto.setAdresse(personne.getAdresse());
-        userDto.setRole(role);
-        userDto.setPassword(personne.getPassword());
-        return userDto;
+		// Construire et retourner le DTO en fonction du type de Personne
+		String role = (personne instanceof Admin) ? "Admin" : "Client";
+
+
+		UserDto userDto = new UserDto();
+		userDto.setId(personne.getId());
+		userDto.setEmail(personne.getEmail());
+		userDto.setNom(personne.getNom());
+		userDto.setPrenom(personne.getPrenom());
+		userDto.setNumero_tel(personne.getNumero_tel());
+		userDto.setAdresse(personne.getAdresse());
+		userDto.setRole(role);
+		userDto.setPassword(personne.getPassword());
+		return userDto;
 	}
 
-	
-	
-	
+
+
 }
 
