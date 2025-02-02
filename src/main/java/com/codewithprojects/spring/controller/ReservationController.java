@@ -1,7 +1,4 @@
 package com.codewithprojects.spring.controller;
-
-
-
 import com.codewithprojects.spring.dto.ExeceptionDto;
 import com.codewithprojects.spring.dto.ReservationDto;
 import com.codewithprojects.spring.dto.ReservationRequest;
@@ -37,7 +34,8 @@ public class ReservationController {
             return ResponseEntity.ok(createdReservation);
         } catch (RuntimeException e) {
             // En cas d'erreur, on renvoie une réponse avec un code d'état 400 (Bad Request)
-            return ResponseEntity.badRequest().body(new ExeceptionDto(e.getMessage()));
+            ExeceptionDto en = new ExeceptionDto();
+            return ResponseEntity.badRequest().body((en.getMessage()));
         }
     }
 

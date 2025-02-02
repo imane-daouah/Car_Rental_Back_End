@@ -23,16 +23,14 @@ import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 
 import com.itextpdf.layout.element.Image;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.net.PasswordAuthentication;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 public class ContratsServiceImpl implements ContratsService {
