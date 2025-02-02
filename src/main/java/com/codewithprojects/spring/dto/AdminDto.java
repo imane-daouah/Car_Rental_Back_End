@@ -13,6 +13,4 @@ public class AdminDto {
 	private String adresse;
     private String password;
 
-	
-
 }

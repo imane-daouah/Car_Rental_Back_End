@@ -2,6 +2,7 @@ package com.codewithprojects.spring.services.facture;
 import com.codewithprojects.spring.dto.FactureDto;
 import com.codewithprojects.spring.dto.FactureRequest;
 import com.codewithprojects.spring.dto.FactureSuppDto;
+import com.codewithprojects.spring.entity.Contrat;
 import com.codewithprojects.spring.entity.Facture;
 import com.codewithprojects.spring.entity.FactureSupplementaire;
 import com.codewithprojects.spring.entity.Reservation;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +82,7 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public FactureSuppDto createFactureSupplimentaire(Contrat contrat ,Double frait, Double montant,String detail) {
+    public FactureSuppDto createFactureSupplimentaire(Contrat contrat , Double frait, Double montant, String detail) {
         Reservation reservation = contrat.getReservation();
         List<Facture> factures= factureRepository.findAll();
         FactureSupplementaire facture = new FactureSupplementaire();
@@ -216,6 +218,8 @@ public class FactureServiceImpl implements FactureService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public byte[] generateFactureSupplimentairePDF(FactureSuppDto paiement) throws IOException {

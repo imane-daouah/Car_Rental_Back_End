@@ -16,17 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CarsServiceImpl implements CarsService {
 	@Autowired
-	private CarsRespository carsRepository;
-	@Autowired
-	private CarsRespository carsRespository;
-
-	@Override
-	public List<CarsDto> getCarsByEtat(String etat) {
-		return carsRepository.findByEtat(etat).stream()
-				.map(CarsDto::fromEntity) // Convertir chaque entité en DTO
-				.collect(Collectors.toList());
-	}
-
+	private  CarsRespository carsRepository;
 	@Override
 	public CarsDto creerCars(CarsRequest carsRequest) {
 		Car car=new Car();
@@ -78,5 +68,19 @@ public class CarsServiceImpl implements CarsService {
 				.orElseThrow(() -> new RuntimeException("Voiture introuvable avec l'ID : " + id));
 		return CarsDto.fromEntity(car);
 	}
-
+	@Override
+	public List<CarsDto> searchCars(String type, String marque, Double tarif) {
+		System.out.println(type);
+		System.out.println(marque);
+		System.out.println(tarif);
+		List<Car> cars = carsRepository.findCarsByFilters(type, marque, tarif);
+		return cars.stream()
+				.map(CarsDto::fromEntity)
+				.collect(Collectors.toList());
+	}
+	@Override
+	public Long getNombreCars() {
+		// TODO Auto-generated method stub
+		return carsRepository.count();
+	}
 }

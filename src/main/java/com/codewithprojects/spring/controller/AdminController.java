@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
 	@Autowired
-	private AdminService adminService;
+	private  AdminService adminService;
 
 	@PutMapping("/{userId}/changer-mot-de-passe")
 	public ResponseEntity<AdminDto> changerMotDePasse(

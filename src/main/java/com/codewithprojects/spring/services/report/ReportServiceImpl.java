@@ -25,6 +25,8 @@ public class ReportServiceImpl implements ReportService {
         return reservationRepository.findReservationsBetweenDatesAndStatuses(startDate, endDate,statuses);
     }
 
+
+
     // Récupérer les factures dans une période donnée
     public List<Facture> getFacturesForPeriod(LocalDate startDate, LocalDate endDate) {
         return factureRepository.findFacturesBetweenDates(startDate, endDate);
@@ -50,5 +52,4 @@ public class ReportServiceImpl implements ReportService {
                         result -> ((double) (long) result[1] / totalReservations) * 100
                 ));
     }
-
 }

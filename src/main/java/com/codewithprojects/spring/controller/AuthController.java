@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 public class AuthController {
 	@Autowired
-	private AuthService authService;
+	private  AuthService authService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> signupCustomer(@RequestBody SignupRequest signupRequest){
