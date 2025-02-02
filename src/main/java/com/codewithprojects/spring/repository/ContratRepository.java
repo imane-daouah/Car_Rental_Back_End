@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ContratRepository extends JpaRepository<Contrat, Long> {
-    @Query("SELECT c FROM Contrat c WHERE c.reservation.id_resrvation = :reservationId")
+    @Query("SELECT c FROM Contrat c WHERE c.reservation.id_reservation = :reservationId")
     Contrat contratByreservationId(@Param("reservationId") Long reservationId);
 }

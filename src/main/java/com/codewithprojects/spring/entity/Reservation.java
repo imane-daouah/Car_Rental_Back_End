@@ -12,8 +12,9 @@ import lombok.Data;
 public class Reservation {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id_resrvation;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id_reservation;
+
 	@ManyToOne
 	@JoinColumn(name = "id_car",nullable = false)
 	private Car car;

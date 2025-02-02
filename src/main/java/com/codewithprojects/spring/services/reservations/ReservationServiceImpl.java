@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -117,7 +117,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     private ReservationDto convertirEnDto(Reservation reservation) {
         ReservationDto reservationDto = new ReservationDto();
-        reservationDto.setId_reservation(reservation.getId_resrvation());
+        reservationDto.setId_reservation(reservation.getId_reservation());
         reservationDto.setDate_debut(reservation.getDate_debut());
         reservationDto.setDate_fin(reservation.getDate_fin());
         reservationDto.setStatu(reservation.getStatu());
@@ -152,7 +152,17 @@ public class ReservationServiceImpl implements ReservationService {
     public Double montontTotal(Long id) {
         Reservation reservation = reservationRepository.findById((long) id)
                 .orElseThrow(() -> new RuntimeException("Réservation introuvable avec l'ID " + id));
-        long daysBetween = ChronoUnit.DAYS.between(reservation.getDate_debut().toInstant(), reservation.getDate_fin().toInstant());
+        //long daysBetween = ChronoUnit.DAYS.between(reservation.getDate_debut().toInstant(), reservation.getDate_fin().toInstant());
+        LocalDate dateDebut = reservation.getDate_debut().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        LocalDate dateFin = reservation.getDate_fin().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+// Calcul de la différence en jours
+        long daysBetween = Period.between(dateDebut, dateFin).getDays();
         Double montontTotalDouble=   daysBetween * reservation.getCar().getTarif();
         return montontTotalDouble;
     }
@@ -190,7 +200,7 @@ public class ReservationServiceImpl implements ReservationService {
                 Car car= reservation.getCar();
                 car.setEtat("Disponible");
                 this.carsRepository.save(car);
-                Contrat contrat=  this.contratRepository.contratByreservationId(reservation.getId_resrvation());
+                Contrat contrat=  this.contratRepository.contratByreservationId(reservation.getId_reservation());
                 contrat.setEtat("Annulee");
                 this.contratRepository.save(contrat);
             }
@@ -205,7 +215,12 @@ public class ReservationServiceImpl implements ReservationService {
                 this.carsRepository.save(car); // Mettre à jour l'état de la voiture
             }else if (reservation.getStatu().equalsIgnoreCase("En cours"))
             {
-                long daysBetween = ChronoUnit.DAYS.between(dateDeFin, LocalDate.now());
+                //long daysBetween = ChronoUnit.DAYS.between(dateDeFin, LocalDate.now());
+                LocalDateTime dateDeFinTime = dateDeFin.atStartOfDay();
+                LocalDateTime dateNow = LocalDate.now().atStartOfDay();
+
+// Calcul de la différence en jours
+                long daysBetween = Duration.between(dateDeFinTime, dateNow).toDays();
                 if(daysBetween>1) {
                     reservation.setStatu("En litige");
                     Car car= reservation.getCar();
@@ -244,7 +259,7 @@ public class ReservationServiceImpl implements ReservationService {
         }else if (reservationExistante.getStatu().equals("En attente de paiement")) {
             reservationExistante.setStatu("Annulee");
             reservationRepository.save(reservationExistante);
-            Contrat contrat=  this.contratRepository.contratByreservationId(reservationExistante.getId_resrvation());
+            Contrat contrat=  this.contratRepository.contratByreservationId(reservationExistante.getId_reservation());
             contrat.setEtat("Annulee");
             this.contratRepository.save(contrat);
         }
@@ -252,7 +267,7 @@ public class ReservationServiceImpl implements ReservationService {
         else {
             reservationExistante.setStatu("Annulee");
             reservationRepository.save(reservationExistante);
-            Contrat contrat=  this.contratRepository.contratByreservationId(reservationExistante.getId_resrvation());
+            Contrat contrat=  this.contratRepository.contratByreservationId(reservationExistante.getId_reservation());
             contrat.setEtat("Annulee");
             this.contratRepository.save(contrat);
         }

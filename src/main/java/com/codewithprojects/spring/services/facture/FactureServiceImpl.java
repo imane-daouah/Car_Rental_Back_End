@@ -23,8 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +71,17 @@ public class FactureServiceImpl implements FactureService {
         facture.setNum_compte(factureRequest.getNum_compte());
         facture.setDate_paiement(LocalDate.now());
 
-        long daysBetween = ChronoUnit.DAYS.between(reservation.getDate_debut().toInstant(), reservation.getDate_fin().toInstant());
+        //long daysBetween = ChronoUnit.DAYS.between(reservation.getDate_debut().toInstant(), reservation.getDate_fin().toInstant());
+        LocalDateTime dateDebut = reservation.getDate_debut().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        LocalDateTime dateFin = reservation.getDate_fin().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+// Calcul de la différence en jours
+        long daysBetween = Duration.between(dateDebut, dateFin).toDays();
         facture.setMontant(daysBetween * reservation.getCar().getTarif());
 
         Facture savedFacture = factureRepository.save(facture);
@@ -82,7 +91,7 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public FactureSuppDto createFactureSupplimentaire(Contrat contrat , Double frait, Double montant, String detail) {
+    /*public FactureSuppDto createFactureSupplimentaire(Contrat contrat , Double frait, Double montant, String detail) {
         Reservation reservation = contrat.getReservation();
         List<Facture> factures= factureRepository.findAll();
         FactureSupplementaire facture = new FactureSupplementaire();
@@ -94,7 +103,6 @@ public class FactureServiceImpl implements FactureService {
             if(facture1.getReservation().getId_resrvation().equals(reservation.getId_resrvation())) {
                 facture.setFacture(facture1);
             }
-        }
 
         Double montantTotale=(nb_jours * frait) + montant;
 
@@ -106,7 +114,30 @@ public class FactureServiceImpl implements FactureService {
 
         return convertToDTO(savedFacture);
     }
+*/
+    public FactureSuppDto createFactureSupplimentaire(Contrat contrat, Double frait, Double montant, String detail) {
+        Reservation reservation = contrat.getReservation();
+        List<Facture> factures = factureRepository.findAll();
+        FactureSupplementaire facture = new FactureSupplementaire();
 
+        // Convertir Date en LocalDate sans ChronoUnit
+        LocalDate dateFin = reservation.getDate_fin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate today = LocalDate.now();
+
+        // Calcul de la différence en jours avec Period
+        long nb_jours = Period.between(dateFin, today).getDays() - 1;
+
+        System.out.println(nb_jours);
+        System.out.print(dateFin);
+
+        for (Facture facture1 : factures) {
+            if (facture1.getReservation().getId_reservation().equals(reservation.getId_reservation())) {
+                facture.setFacture(facture1);
+            }
+        }
+
+        return new FactureSuppDto(); // Retourne un objet, à adapter selon tes besoins
+    }
     @Override
     public FactureDto updateFacture(long id, FactureDto factureDTO) {
         Facture facture = factureRepository.findById(id).orElseThrow(() -> new RuntimeException("Facture not found"));
@@ -189,8 +220,19 @@ public class FactureServiceImpl implements FactureService {
         table.addHeaderCell(new Cell().add(new Paragraph("Montant (MAD)")));
 
 
-        long daysBetween = ChronoUnit.DAYS.between(paiement.getReservation().getDate_debut().toInstant(), paiement.getReservation().getDate_fin().toInstant());
+        //
+        //long daysBetween = ChronoUnit.DAYS.between(paiement.getReservation().getDate_debut().toInstant(), paiement.getReservation().getDate_fin().toInstant());
         // Ajout des lignes au tableau
+        LocalDate dateDebut = paiement.getReservation().getDate_debut().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        LocalDate dateFin = paiement.getReservation().getDate_fin().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+// Calcul de la différence en jours avec Period
+        long daysBetween = Period.between(dateDebut, dateFin).getDays();
 
         table.addCell(new Cell().add(new Paragraph(paiement.getReservation().getCar().getMarque() + " " +
                 paiement.getReservation().getCar().getModele())));

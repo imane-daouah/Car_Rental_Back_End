@@ -5,13 +5,14 @@ import com.codewithprojects.spring.entity.Reservation;
 import com.codewithprojects.spring.repository.FactureRepository;
 import com.codewithprojects.spring.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@Service
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private ReservationRepository reservationRepository;

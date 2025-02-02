@@ -6,6 +6,14 @@ import com.codewithprojects.spring.entity.Reservation;
 import com.codewithprojects.spring.repository.ContratRepository;
 import com.codewithprojects.spring.repository.ReservationRepository;
 import com.itextpdf.layout.properties.TextAlignment;
+import jakarta.activation.DataHandler;
+import jakarta.mail.Multipart;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.util.ByteArrayDataSource;
 import jakarta.websocket.Session;
 import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.net.PasswordAuthentication;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.LocalDate;
 import java.util.*;
@@ -42,6 +51,20 @@ public class ContratsServiceImpl implements ContratsService {
     private ReservationRepository reservationRepository;
 
     @Override
+    public ContratDao getContratById(Long id) {
+        Optional<Contrat> contratOpt = contratRepository.findById(id);
+        if (contratOpt.isPresent()) {
+            Contrat contrat = contratOpt.get();
+            ContratDao contratDao = new ContratDao();
+            contratDao.setIdContrat(contrat.getId());
+            contratDao.setReservation(contrat.getReservation());
+            contratDao.setEtat(contrat.getEtat());
+            contratDao.setSignatureImage(contrat.getSignatureImage());
+            return contratDao;
+        }
+        return null;
+    }
+
    /* public List<ContratDao> getAllContrats() {
         List<Contrat> contrats = contratRepository.findAll();
         List<ContratDao> contratDaos = new ArrayList<>();
@@ -55,6 +78,15 @@ public class ContratsServiceImpl implements ContratsService {
 
         return contratDaos;
     }*/
+    public ContratDao convertTDao(Contrat contrat) {
+        ContratDao contratDao = new ContratDao();
+        contratDao.setIdContrat(contrat.getId());
+        contratDao.setReservation(contrat.getReservation());
+        contratDao.setEtat(contrat.getEtat());
+        contratDao.setSignatureImage(contrat.getSignatureImage());
+        return contratDao;
+    }
+
     public List<ContratDao> getAllContrats() {
         LocalDate today = LocalDate.now();
 
@@ -78,9 +110,11 @@ public class ContratsServiceImpl implements ContratsService {
                     contratDaos.add(contratDao);
                 }
                 if(statut.equals("En cours")&&
-                        dateFin != null && ChronoUnit.DAYS.between(dateFin, today) == 1 ) {
+                        //dateFin != null && ChronoUnit.DAYS.between(dateFin, today) == 1 ) {
+                        dateFin != null && Period.between(dateFin, today).getDays() == 1 ){
 
-                    ContratDao contratDao = this.convertTDao(contrat);
+
+                ContratDao contratDao = this.convertTDao(contrat);
 
                     contratDaos.add(contratDao);
                 }
@@ -88,25 +122,17 @@ public class ContratsServiceImpl implements ContratsService {
             }
         }
 
-        return contratDaos;
-    }
+        return  contratDaos;
+}
     private LocalDate convertirDateEnLocalDate(Date date) {
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
     }
+
+
     @Override
-    public ContratDao getContratById(Long id) {
-        Optional<Contrat> contratOpt = contratRepository.findById(id);
-        if (contratOpt.isPresent()) {
-            Contrat contrat = contratOpt.get();
-            ContratDao contratDao = new ContratDao();
-            contratDao.setIdContrat(contrat.getId());
-            contratDao.setReservation(contrat.getReservation());
-            contratDao.setEtat(contrat.getEtat());
-            contratDao.setSignatureImage(contrat.getSignatureImage());
-            return contratDao;
-        }
+    public ContratDao getContratByIdReservation(Long id) {
         return null;
     }
 
@@ -171,10 +197,20 @@ public class ContratsServiceImpl implements ContratsService {
         document.add(new Paragraph("Date de Fin : " + contrat.getReservation().getDate_fin()).setFont(contentFont));
 
         // Calcul du nombre de jours et montant total
-        long daysBetween = ChronoUnit.DAYS.between(
+        /*long daysBetween = ChronoUnit.DAYS.between(
                 contrat.getReservation().getDate_debut().toInstant(),
                 contrat.getReservation().getDate_fin().toInstant()
-        );
+        );*/
+        LocalDate dateDebut = contrat.getReservation().getDate_debut().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        LocalDate dateFin = contrat.getReservation().getDate_fin().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+// Calcul de la différence en jours
+        long daysBetween = Period.between(dateDebut, dateFin).getDays();
         double montantTotal = contrat.getReservation().getCar().getTarif() * daysBetween;
 
         document.add(new Paragraph("Nombre de Jours : " + daysBetween).setFont(contentFont));
@@ -211,9 +247,20 @@ public class ContratsServiceImpl implements ContratsService {
         // this.sendContratEmail(contrat.getReservation().getUser().getEmail(), "contrat de location voiture", "", baos.toByteArray());
         return baos.toByteArray();
     }
+
     @Override
-    // Nouvelle méthode pour envoyer le PDF par email
     public void sendContratEmail(String recipientEmail, String subject, String body, byte[] contratPdf) throws Exception {
+
+    }
+
+    @Override
+    public void setImage(Long idcontrat, MultipartFile signatureImage) throws Exception {
+
+    }
+
+
+    // Nouvelle méthode pour envoyer le PDF par email
+    /*public void sendContratEmail(String recipientEmail, String subject, String body, byte[] contratPdf) throws Exception {
         String host = "smtp.gmail.com"; // Utilisez votre serveur SMTP (ici Gmail)
         final String fromEmail = "smaildamouh47@gmail.com"; // Votre adresse email
         final String password = "ma3ine2002"; // Votre mot de passe (ou mot de passe d'application si nécessaire)
@@ -281,5 +328,5 @@ public class ContratsServiceImpl implements ContratsService {
         contratOpt.setSignatureImage(signatureImage.getBytes());
         contratRepository.save(contratOpt);
 
-    }
+    }*/
 }
